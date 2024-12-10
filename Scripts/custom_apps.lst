@@ -24,4 +24,17 @@ spicetify-cli                                          # cli to customize spotif
 
 # --------------------------------------------------- // Shell
 # oh-my-zsh-git|zsh                                      # Optional plugin manager for zsh
-# pokemon-colorscripts-git|zsh                           # display pokemon sprites (optional)
+pokemon-colorscripts-git                         # display pokemon sprites (optional)
+eza|fish
+starship|fish
+
+# My Additions
+vesktop
+geogebra
+kalzium
+#heroic-games-launcher-bin
+#tor-browser-bin
+torbrowser-launcher
+gwenview
+okular
+vlc

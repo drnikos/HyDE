@@ -2,6 +2,8 @@ set -g fish_greeting
 
 if status is-interactive
     starship init fish | source
+    # Display Pokemon
+    pokemon-colorscripts --no-title -r 1, 2
 end
 
 # List Directory
@@ -10,6 +12,11 @@ alias ls='eza -1   --icons=auto' # short list
 alias ll='eza -lha --icons=auto --sort=name --group-directories-first' # long list all
 alias ld='eza -lhD --icons=auto' # long list dirs
 alias lt='eza --icons=auto --tree' # list folder as tree
+
+alias inget="paru -S"
+alias sysup="paru -Syu"
+alias gc="git clone"
+alias gp="git pull"
 
 # Handy change dir shortcuts
 abbr .. 'cd ..'
@@ -20,3 +27,5 @@ abbr .5 'cd ../../../../..'
 
 # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
 abbr mkdir 'mkdir -p'
+fish_add_path /home/wasp/.spicetify
+alias ntuapclab='luit -encoding ISO-8859-7 ssh placeholder@novice.softlab.ntua.gr'
