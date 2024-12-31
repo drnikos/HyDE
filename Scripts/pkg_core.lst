@@ -13,8 +13,10 @@ network-manager-applet                                 # network manager system 
 bluez                                                  # bluetooth protocol stack
 bluez-utils                                            # bluetooth utility cli
 blueman                                                # bluetooth manager gui
+bluez-obex                                             # for transfering files via bluetooth
 brightnessctl                                          # screen brightness control
 udiskie                                                # manage removable media
+os-prober                                              # dual boot support
 
 # --------------------------------------------------- // Display Manager
 sddm                                                   # display manager for KDE plasma
@@ -37,6 +39,7 @@ slurp                                                  # region select for scree
 swappy                                                 # screenshot editor
 cliphist                                               # clipboard manager
 hyprsunset                                             # blue light filter
+btop                                                   # top
 
 # --------------------------------------------------- // Dependencies
 polkit-gnome                                           # authentication agent
@@ -61,12 +64,13 @@ qt5-wayland                                            # wayland support in qt5
 qt6-wayland                                            # wayland support in qt6
 
 # --------------------------------------------------- // Applications
-firefox                                                # browser
+firefox-developer-edition                              # browser
 kitty                                                  # terminal
 dolphin                                                # kde file manager
 ark                                                    # kde file archiver
 unzip                                                  # extracting zip files
 vim                                                    # terminal text editor
+vi                                                     # terminal text editor v2
 code                                                   # ide text editor
 nwg-displays                                           # monitor management utility
 
@@ -74,11 +78,11 @@ nwg-displays                                           # monitor management util
 eza|zsh                                                # file lister for zsh
 # oh-my-zsh-git|zsh                                    #  plugin manager for zsh (Optional) // Moved to pkg_custom.lst
 zsh-theme-powerlevel10k-git|zsh                        # theme for zsh
-pokego-bin|zsh                                        # display pokemon sprites in terminal (written GO)
+pokego-bin                                             # display pokemon sprites in terminal (written GO)
 eza|fish                                               # file lister for fish
 starship|fish                                          # customizable shell prompt
 fastfetch                                              # system information fetch tool
 
 # --------------------------------------------------- // HyDE
-# hyde-cli-git                                           # cli tool to manage hyde \\ Deprecated for HyDE
+# hyde-cli-git                                         # cli tool to manage hyde \\ Deprecated for HyDE
 hypridle                                               # idle daemon
