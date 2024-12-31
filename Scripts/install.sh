@@ -38,8 +38,9 @@ flg_Service=0
 flg_DryRun=0
 flg_Shell=0
 flg_Nvidia=1
+flg_ThemeInstall=1
 
-while getopts idrstnh: RunStep; do
+while getopts idrstmnh: RunStep; do
     case $RunStep in
     i) flg_Install=1 ;;
     d)
@@ -59,6 +60,7 @@ while getopts idrstnh: RunStep; do
         print_log -r "[shell] " -b "Reevaluate :: " "shell options"
         ;;
     t) flg_DryRun=1 ;;
+    m) flg_ThemeInstall=0 ;;
     *)
         cat <<EOF
 Usage: $0 [options]
@@ -67,7 +69,8 @@ Usage: $0 [options]
             r : [r]estore config files
             s : enable system [s]ervices
             n : ignore/[n]o [n]vidia actions
-            h : reevaluate S[h]ell
+            h : re-evaluate S[h]ell
+            m : no the[m]e reinstallations
             t : [t]est run without executing (-irst to dry run all)
 EOF
         exit 1
@@ -76,7 +79,8 @@ EOF
 done
 
 # Only export that are used outside this script
-export flg_DryRun flg_Nvidia flg_Shell flg_Install
+HYDE_LOG="$(date +'%y%m%d_%Hh%Mm%Ss')"
+export flg_DryRun flg_Nvidia flg_Shell flg_Install flg_ThemeInstall HYDE_LOG
 
 if [ "${flg_DryRun}" -eq 1 ]; then
     print_log -n "[test-run] " -b "enabled :: " "Testing without executing"
@@ -121,12 +125,13 @@ EOF
     #----------------------#
     shift $((OPTIND - 1))
     custom_pkg=$1
-    cp "${scrDir}/custom_hypr.lst" "${scrDir}/install_pkg.lst"
-    trap 'rm "${scrDir}/install_pkg.lst"' EXIT
+    cp "${scrDir}/pkg_core.lst" "${scrDir}/install_pkg.lst"
+    trap 'mv "${scrDir}/install_pkg.lst" "${cacheDir}/logs/${HYDE_LOG}/install_pkg.lst"' EXIT
 
     if [ -f "${custom_pkg}" ] && [ -n "${custom_pkg}" ]; then
         cat "${custom_pkg}" >>"${scrDir}/install_pkg.lst"
     fi
+    echo -e "\n#user packages" >>"${scrDir}/install_pkg.lst" # Add a marker for user packages
     #--------------------------------#
     # add nvidia drivers to the list #
     #--------------------------------#
@@ -145,35 +150,70 @@ EOF
     #----------------#
     # get user prefs #
     #----------------#
+    echo ""
     if ! chk_list "aurhlpr" "${aurList[@]}"; then
-        print_log -c "AUR Helpers :: " + 30 "\n[1] " "yay" + 60 "\n[2] " "yay-bin" + 90 "\n[3] " "paru" + 120 "\n[4] " "paru-bin"
-        prompt_timer 120 "Enter option number [default: yay] "
+        print_log -c "\nAUR Helpers :: "
+        aurList+=("yay-bin" "paru-bin") # Add this here instead of in global_fn.sh
+        for i in "${!aurList[@]}"; do
+            print_log -sec "$((i + 1))" " ${aurList[$i]} "
+        done
 
-        case "${promptIn}" in
+        prompt_timer 120 "Enter option number [default: yay-bin] | q to quit "
+
+        case "${PROMPT_INPUT}" in
         1) export getAur="yay" ;;
         2) export getAur="yay-bin" ;;
         3) export getAur="paru" ;;
         4) export getAur="paru-bin" ;;
-        *)
-            print_log -warn "AUR" " :: " "Invalid option selected"
+        q)
+            print_log -sec "AUR" -crit "Quit" "Exiting..."
             exit 1
             ;;
+        *)
+            print_log -sec "AUR" -warn "Defaulting to yay-bin"
+            print_log -sec "AUR" -stat "default" "yay-bin"
+            export getAur="yay-bin"
+            ;;
         esac
+        if [[ -z "$getAur" ]]; then
+            print_log -sec "AUR" -crit "No AUR helper found..." "Log file at ${cacheDir}/logs/${HYDE_LOG}"
+            exit 1
+        fi
     fi
 
     if ! chk_list "myShell" "${shlList[@]}"; then
-        print_log -c "Shell :: " + 30 "\n[1] " "zsh" + 60 "\n[2] " "fish"
-        prompt_timer 120 "Enter option number"
+        print_log -c "Shell :: "
+        for i in "${!shlList[@]}"; do
+            print_log -sec "$((i + 1))" " ${shlList[$i]} "
+        done
+        prompt_timer 120 "Enter option number [default: zsh] | q to quit "
 
-        case "${promptIn}" in
+        case "${PROMPT_INPUT}" in
         1) export myShell="zsh" ;;
         2) export myShell="fish" ;;
-        *)
-            print_log -warn "Shell" " :: " "Invalid option selected"
+        q)
+            print_log -sec "shell" -crit "Quit" "Exiting..."
             exit 1
             ;;
+        *)
+            print_log -sec "shell" -warn "Defaulting to zsh"
+            export myShell="zsh"
+            ;;
         esac
+        print_log -sec "shell" -stat "Added as shell" "${myShell}"
         echo "${myShell}" >>"${scrDir}/install_pkg.lst"
+
+        if [[ -z "$myShell" ]]; then
+            print_log -sec "shell" -crit "No shell found..." "Log file at ${cacheDir}/logs/${HYDE_LOG}"
+            exit 1
+        else
+            print_log -sec "shell" -stat "detected :: " "${myShell}"
+        fi
+    fi
+
+    if ! grep -q "^#user packages" "${scrDir}/install_pkg.lst"; then
+        print_log -sec "pkg" -crit "No user packages found..." "Log file at ${cacheDir}/logs/${HYDE_LOG}/install.sh"
+        exit 1
     fi
 
     #--------------------------------#
@@ -198,35 +238,18 @@ EOF
 
     if [ "${flg_DryRun}" -ne 1 ] && [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
         hyprctl keyword misc:disable_autoreload 1 -q
-        trap 'hyprctl reload -q && echo "[install] reload :: Hyprland"' EXIT
-    fi
-    if [[ -f $HOME/.config/hypr/hyprland.conf ]]; then
-        if grep -q "AUTOGENERATED HYPRLAND CONFIG" "$HOME/.config/hypr/hyprland.conf" && grep -q "autogenerated = 1" "$HOME/.config/hypr/hyprland.conf"; then
-            rm "$HOME/.config/hypr/hyprland.conf"
-            print_log -g "[config] " -warn "removed" "autogenerated hyprland.conf"
-        fi
     fi
 
     "${scrDir}/restore_fnt.sh"
     "${scrDir}/restore_cfg.sh"
-    print_log -g "[THEME] " -warn "imports" "from List"
-    while IFS='"' read -r _ themeName _ themeRepo; do
-        themeNameQ+=("${themeName//\"/}")
-        themeRepoQ+=("${themeRepo//\"/}")
-        themePath="${confDir}/hyde/themes/${themeName}"
-        [ -d "${themePath}" ] || mkdir -p "${themePath}"
-        [ -f "${themePath}/.sort" ] || echo "${#themeNameQ[@]}" >"${themePath}/.sort"
-        print_log -g "[THEME] " -stat "added" "${themeName}"
-    done <"${scrDir}/themepatcher.lst"
-    set +e
-    [ "${flg_DryRun}" -eq 1 ] || parallel --bar --link "\"${scrDir}/themepatcher.sh\"" "{1}" "{2}" "{3}" "{4}" ::: "${themeNameQ[@]}" ::: "${themeRepoQ[@]}" ::: "--skipcaching" ::: "false"
-    set -e
-    print_log -g "[generate] " "cache ::" "Wallpapers..."
-    [ "${flg_DryRun}" -eq 1 ] || "$HOME/.local/lib/hyde/swwwallcache.sh" -t ""
-    if [ "${flg_DryRun}" -ne 1 ] && [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
-        print_log -g "[THEME] " -n " reload ::" "Current theme"
-        "$HOME/.local/lib/hyde/themeswitch.sh" &>/dev/null
+    "${scrDir}/restore_thm.sh"
+
+    if [ "${flg_DryRun}" -ne 1 ]; then
+        "$HOME/.local/lib/hyde/swwwallcache.sh" -t ""
+        "$HOME/.local/lib/hyde/themeswitch.sh" -q || true
+        echo "[install] reload :: Hyprland"
     fi
+
 fi
 
 #---------------------#
@@ -272,4 +295,14 @@ EOF
         fi
 
     done <"${scrDir}/system_ctl.lst"
+fi
+
+if [ $flg_Install -eq 1 ]; then
+    print_log -stat "\nInstallation" "completed"
+fi
+print_log -stat "Log" "View logs at ${cacheDir}/logs/${HYDE_LOG}"
+if [ $flg_Install -eq 1 ] ||
+    [ $flg_Restore -eq 1 ] ||
+    [ $flg_Service -eq 1 ]; then
+    print_log -stat "HyDE" "Please restart your system to apply changes"
 fi

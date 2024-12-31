@@ -1,75 +1,56 @@
-# Hi! 👋 Khing here.
-
-## This fork will enhance and fix prasanthrangan/hyprdots over time.
-
-### Why?
-
-- Tittu (the original creator) is AFK for now, and I'm the only collaborator left. ⁉️
-- My permissions are limited, so I can only merge PRs. If something breaks, I have to wait for help. 😭
-- I won’t change everything in his dotfiles out of respect.
-- This repo won't **overwrite** $USER's dotfiles.
-
-**This fork is temporary and will bridge the old structure to a newer one [coming soon...].**
-
-### Who are the $USER?
-
-> **NOTE**: If you're confused why every `install.sh -r` overwrites your configs, you should fork [prasanthrangan/hyprdots](https://github.com/prasanthrangan/hyprdots), edit the `*.lst` file, and run the script. That’s the intended way.
-
-Who are the $USER?
-
-✅ Don’t want to maintain a fork
-✅ Want to stay updated with this great dotfile
-✅ Don’t know how the repo works
-✅ Don’t have time to create your own dotfiles, just use this as inspiration
-✅ Want a cleaner `~/.config` with everything structured like a real Linux package
-✅ Demands a DE like experience
-
-### ROADMAP 🛣️📍
-
-- [ ] **Portable**
-
-  - [ ] HyDE-specific files should be imported into $USER, not the other way around
-  - [ ] Keep it minimal
-  - [ ] Make it packageable
-  - [ ] Follow XDG specs
-  - [ ] Add Makefile
-
-- [ ] **Extensible**
-
-  - [ ] Add HyDE extension system
-  - [ ] Predictable installation
-
-- [ ] **Performance**
-
-  - [ ] Optimize scripts for speed and efficiency
-  - [ ] Make a single CLI to manage all the core script
-
-- [ ] **Manageable**
-  - [ ] Fix scripts (shellcheck compatible)
-  - [ ] Move scripts to `./lib/hyde`
-  - [ ] Make `wallbash*.sh` scripts monolithic, to fix wallbash issues
-- [ ] **Better Abstraction**
-  - [ ] Waybar
-  - [ ] Hyprlock
-  - [ ] ...
-- [ ] Clean up
-- [ ] **...**
-
----
-
-Here's how we can update HyDE-specific Hyprland settings without changing user preferences. We don't need the "userprefs" file. Instead, we can source HyDE's hyprland.conf and make $USER prefered changes directly in the config. With this approach, won't potentially break hyde and hyde won't break your own dots.
-
-![Hyprland strcuture](https://github.com/user-attachments/assets/91b35c2e-0003-458f-ab58-18fc29541268)
-
----
-
-###### _<div align="right"><sub>// design by t2</sub></div>_
-
 <div align = center>
     <a href="https://discord.gg/AYbJ9MJez7">
 <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscordapp.com%2Fapi%2Finvites%2FmT5YqjaJFh%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&style=for-the-badge&logo=discord&logoSize=auto&label=The%20HyDe%20Project&labelColor=ebbcba&color=c79bf0">
     </a>
 </div>
+
+###### _<div align="right"><sub>// design by t2</sub></div>_
+
+![hyde_banner](Source/assets/hyde_banner.png)
+
+<!--
+Multi-language README support
+-->
+
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/HyDE-Project/HyDE/blob/master/README.md)
+[![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/HyDE-Project/HyDE/blob/master/Source/docs/README.es.md)
+
+<div align="center">
+
+<br>
+
+<a href="#installation"><kbd> <br> Installation <br> </kbd></a>&ensp;&ensp;
+<a href="#themes"><kbd> <br> Themes <br> </kbd></a>&ensp;&ensp;
+<a href="#styles"><kbd> <br> Styles <br> </kbd></a>&ensp;&ensp;
+<a href="KEYBINDINGS.md"><kbd> <br> Keybindings <br> </kbd></a>&ensp;&ensp;
+<a href="https://www.youtube.com/watch?v=2rWqdKU1vu8&list=PLt8rU_ebLsc5yEHUVsAQTqokIBMtx3RFY&index=1"><kbd> <br> Youtube <br> </kbd></a>&ensp;&ensp;
+<a href="https://github.com/hyde-project/hyde/wiki"><kbd> <br> Wiki <br> </kbd></a>&ensp;&ensp;
+<a href="https://discord.gg/qWehcFJxPa"><kbd> <br> Discord <br> </kbd></a>
+
+</div><br><br>
+
+<div align="center">
+  <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+    <div style="flex: 1 1 100px; margin: 10px;">
+      <img src="Source/assets/archlinux.png" alt="Arch Linux" style="width: 100%; max-width: 100px;"/>
+    </div>
+    <div style="flex: 1 1 100px; margin: 10px;">
+      <img src="Source/assets/cachyos.png" alt="CachyOS" style="width: 100%; max-width: 100px;"/>
+    </div>
+    <div style="flex: 1 1 100px; margin: 10px;">
+      <img src="Source/assets/endeavouros.png" alt="EndeavourOS" style="width: 100%; max-width: 100px;"/>
+    </div>
+    <div style="flex: 1 1 100px; margin: 10px;">
+      <img src="Source/assets/garuda.png" alt="Garuda" style="width: 100%; max-width: 100px;"/>
+    </div>
+    <div style="flex: 1 1 100px; margin: 10px;">
+      <img src="Source/assets/nixos.png" alt="NixOS" style="width: 100%; max-width: 100px;"/>
+    </div>
+  </div>
+</div>
+
+Check this out for the full note:
+[Journey to HyDE and beyond](./Hyprdots-to-HyDE.md)
 
 <!--
 <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscordapp.com%2Fapi%2Finvites%2FmT5YqjaJFh%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&style=for-the-badge&logo=discord&logoSize=auto&label=The%20HyDe%20Project&labelColor=ebbcba&color=c79bf0">
@@ -77,25 +58,7 @@ Here's how we can update HyDE-specific Hyprland settings without changing user p
 <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscordapp.com%2Fapi%2Finvites%2FmT5YqjaJFh%3Fwith_counts%3Dtrue&query=%24.approximate_presence_count&suffix=%20online&style=for-the-badge&logo=discord&logoSize=auto&label=The%20HyDe%20Project&labelColor=ebbcba&color=c79bf0">
 -->
 
-<div align="center">
-
-![hyde_banner](https://raw.githubusercontent.com/prasanthrangan/hyprdots/main/Source/assets/hyde_banner.png)
-
-<br>
-
-<a href="#installation"><kbd> <br> Installation <br> </kbd></a>&ensp;&ensp;
-<a href="#themes"><kbd> <br> Themes <br> </kbd></a>&ensp;&ensp;
-<a href="#styles"><kbd> <br> Styles <br> </kbd></a>&ensp;&ensp;
-<a href="#keybindings"><kbd> <br> Keybindings <br> </kbd></a>&ensp;&ensp;
-<a href="https://www.youtube.com/watch?v=2rWqdKU1vu8&list=PLt8rU_ebLsc5yEHUVsAQTqokIBMtx3RFY&index=1"><kbd> <br> Youtube <br> </kbd></a>&ensp;&ensp;
-<a href="https://github.com/prasanthrangan/hyprdots/wiki"><kbd> <br> Wiki <br> </kbd></a>&ensp;&ensp;
-<a href="https://discord.gg/qWehcFJxPa"><kbd> <br> Discord <br> </kbd></a>
-
-</div><br><br>
-
 https://github.com/prasanthrangan/hyprdots/assets/106020512/7f8fadc8-e293-4482-a851-e9c6464f5265
-
-<br><div align="center"><img width="12%" src="https://raw.githubusercontent.com/prasanthrangan/hyprdots/main/Source/assets/arch.png"/><br></div>
 
 ## Installation
 
@@ -121,17 +84,20 @@ cd ~/HyDE/Scripts
 ```
 
 > [!TIP]
-> You can also add any other apps you wish to install alongside HyDE to `Scripts/custom_apps.lst` and pass the file as a parameter to install it like so:
+> You can also add any other apps you wish to install alongside HyDE to `Scripts/pkg_custom.lst` and pass the file as a parameter to install it like so:
 >
 > ```shell
-> ./install.sh custom_apps.lst
+> ./install.sh pkg_custom.lst
 > ```
+
+<!--
 
 As a second install option, you can also use `Hyde-install`, which might be easier for some.
 View installation instructions for HyDE in [Hyde-cli - Usage](https://github.com/kRHYME7/Hyde-cli?tab=readme-ov-file#usage).
+-->
 
 Please reboot after the install script completes and takes you to the SDDM login screen (or black screen) for the first time.
-For more details, please refer to the [installation wiki](https://github.com/prasanthrangan/hyprdots/wiki/Installation).
+For more details, please refer to the [installation wiki](https://github.com/HyDE-Project/HyDE/wiki/installation).
 
 ### Updating
 
@@ -139,16 +105,18 @@ To update HyDE, you will need to pull the latest changes from GitHub and restore
 
 ```shell
 cd ~/HyDE/Scripts
-git pull
+git pull origin master
 ./install.sh -r
 ```
 
 > [!IMPORTANT]
-> Please note that any configurations you made will be overwritten if listed to be done so as listed by `Scripts/restore_cfg.lst`.
+> Please note that any configurations you made will be overwritten if listed to be done so as listed by `Scripts/restore_cfg.psv`.
 > However, all replaced configs are backed up and may be recovered from in `~/.config/cfg_backups`.
 
+<!--
 As a second update option, you can use `Hyde restore ...`, which does have a better way of managing restore and backup options.
 For more details, you can refer to [Hyde-cli - dots management wiki](https://github.com/kRHYME7/Hyde-cli/wiki/Dots-Management).
+-->
 
 <div align="right">
   <br>
@@ -163,18 +131,18 @@ For more information, visit [HyDE-Project/hyde-themes](https://github.com/HyDE-P
 <div align="center">
   <table><tr><td>
 
-[![Catppuccin-Latte](https://placehold.co/130x30/dd7878/eff1f5?text=Catppuccin-Latte&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Catppuccin-Latte)
-[![Catppuccin-Mocha](https://placehold.co/130x30/b4befe/11111b?text=Catppuccin-Mocha&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Catppuccin-Mocha)
-[![Decay-Green](https://placehold.co/130x30/90ceaa/151720?text=Decay-Green&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Decay-Green)
-[![Edge-Runner](https://placehold.co/130x30/fada16/000000?text=Edge-Runner&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Edge-Runner)
-[![Frosted-Glass](https://placehold.co/130x30/7ed6ff/1e4c84?text=Frosted-Glass&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Frosted-Glass)
-[![Graphite-Mono](https://placehold.co/130x30/a6a6a6/262626?text=Graphite-Mono&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Graphite-Mono)
-[![Gruvbox-Retro](https://placehold.co/130x30/475437/B5CC97?text=Gruvbox-Retro&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Gruvbox-Retro)
-[![Material-Sakura](https://placehold.co/130x30/f2e9e1/b4637a?text=Material-Sakura&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Material-Sakura)
-[![Nordic-Blue](https://placehold.co/130x30/D9D9D9/476A84?text=Nordic-Blue&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Nordic-Blue)
-[![Rosé-Pine](https://placehold.co/130x30/c4a7e7/191724?text=Rosé-Pine&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Rose-Pine)
-[![Synth-Wave](https://placehold.co/130x30/495495/ff7edb?text=Synth-Wave&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Synth-Wave)
-[![Tokyo-Night](https://placehold.co/130x30/7aa2f7/24283b?text=Tokyo-Night&font=Oswald)](https://github.com/prasanthrangan/hyde-themes/tree/Tokyo-Night)
+[![Catppuccin-Latte](https://placehold.co/130x30/dd7878/eff1f5?text=Catppuccin-Latte&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Catppuccin-Latte)
+[![Catppuccin-Mocha](https://placehold.co/130x30/b4befe/11111b?text=Catppuccin-Mocha&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Catppuccin-Mocha)
+[![Decay-Green](https://placehold.co/130x30/90ceaa/151720?text=Decay-Green&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Decay-Green)
+[![Edge-Runner](https://placehold.co/130x30/fada16/000000?text=Edge-Runner&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Edge-Runner)
+[![Frosted-Glass](https://placehold.co/130x30/7ed6ff/1e4c84?text=Frosted-Glass&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Frosted-Glass)
+[![Graphite-Mono](https://placehold.co/130x30/a6a6a6/262626?text=Graphite-Mono&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Graphite-Mono)
+[![Gruvbox-Retro](https://placehold.co/130x30/475437/B5CC97?text=Gruvbox-Retro&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Gruvbox-Retro)
+[![Material-Sakura](https://placehold.co/130x30/f2e9e1/b4637a?text=Material-Sakura&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Material-Sakura)
+[![Nordic-Blue](https://placehold.co/130x30/D9D9D9/476A84?text=Nordic-Blue&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Nordic-Blue)
+[![Rosé-Pine](https://placehold.co/130x30/c4a7e7/191724?text=Rosé-Pine&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Rose-Pine)
+[![Synth-Wave](https://placehold.co/130x30/495495/ff7edb?text=Synth-Wave&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Synth-Wave)
+[![Tokyo-Night](https://placehold.co/130x30/7aa2f7/24283b?text=Tokyo-Night&font=Oswald)](https://github.com/HyDE-Project/hyde-themes/tree/Tokyo-Night)
 
   </td></tr></table>
 </div>
@@ -235,67 +203,15 @@ For more information, visit [HyDE-Project/hyde-themes](https://github.com/HyDE-P
   <a href="#-design-by-t2"><kbd> <br> 🡅 <br> </kbd></a>
 </div>
 
-## Keybindings
-
 <div align="center">
-
-| Keys                                                                                                     | Action                                                            |
-| :------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------- |
-| <kbd>Super</kbd> + <kbd>Q</kbd><br><kbd>Alt</kbd> + <kbd>F4</kbd>                                        | Close focused window                                              |
-| <kbd>Super</kbd> + <kbd>Del</kbd>                                                                        | Kill Hyprland session                                             |
-| <kbd>Super</kbd> + <kbd>W</kbd>                                                                          | Toggle the window between focus and float                         |
-| <kbd>Super</kbd> + <kbd>G</kbd>                                                                          | Toggle the window between focus and group                         |
-| <kbd>Super</kbd> + <kbd>slash</kbd>                                                                      | Launch keybinds hint                                              |
-| <kbd>Alt</kbd> + <kbd>Enter</kbd>                                                                        | Toggle the window between focus and fullscreen                    |
-| <kbd>Super</kbd> + <kbd>L</kbd>                                                                          | Launch lock screen                                                |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd>                                                       | Toggle pin on focused window                                      |
-| <kbd>Super</kbd> + <kbd>Backspace</kbd>                                                                  | Launch logout menu                                                |
-| <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>W</kbd>                                                          | Toggle waybar                                                     |
-| <kbd>Super</kbd> + <kbd>T</kbd>                                                                          | Launch terminal emulator (kitty)                                  |
-| <kbd>Super</kbd> + <kbd>E</kbd>                                                                          | Launch file manager (dolphin)                                     |
-| <kbd>Super</kbd> + <kbd>C</kbd>                                                                          | Launch text editor (vscode)                                       |
-| <kbd>Super</kbd> + <kbd>F</kbd>                                                                          | Launch web browser (firefox)                                      |
-| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd>                                                      | Launch system monitor (htop/btop or fallback to top)              |
-| <kbd>Super</kbd> + <kbd>A</kbd>                                                                          | Launch application launcher (rofi)                                |
-| <kbd>Super</kbd> + <kbd>Tab</kbd>                                                                        | Launch window switcher (rofi)                                     |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>                                                       | Launch file explorer (rofi)                                       |
-| <kbd>F10</kbd>                                                                                           | Toggle audio mute                                                 |
-| <kbd>F11</kbd>                                                                                           | Decrease volume                                                   |
-| <kbd>F12</kbd>                                                                                           | Increase volume                                                   |
-| <kbd>Super</kbd> + <kbd>P</kbd>                                                                          | Partial screenshot capture                                        |
-| <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>P</kbd>                                                        | Partial screenshot capture (frozen screen)                        |
-| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>P</kbd>                                                         | Monitor screenshot capture                                        |
-| <kbd>PrtScn</kbd>                                                                                        | All monitors screenshot capture                                   |
-| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>G</kbd>                                                         | Disable hypr effects for gamemode                                 |
-| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>→</kbd><kbd>←</kbd>                                             | Cycle wallpaper                                                   |
-| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd><kbd>↓</kbd>                                             | Cycle waybar mode                                                 |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>                                                       | Launch wallbash mode select menu (rofi)                           |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>                                                       | Launch theme select menu (rofi)                                   |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd>                                                       | Launch style select menu (rofi)                                   |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>                                                       | Launch wallpaper select menu (rofi)                               |
-| <kbd>Super</kbd> + <kbd>V</kbd>                                                                          | Launch clipboard (rofi)                                           |
-| <kbd>Super</kbd> + <kbd>K</kbd>                                                                          | Switch keyboard layout                                            |
-| <kbd>Super</kbd> + <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd>                                      | Move window focus                                                 |
-| <kbd>Alt</kbd> + <kbd>Tab</kbd>                                                                          | Change window focus                                               |
-| <kbd>Super</kbd> + <kbd>[0-9]</kbd>                                                                      | Switch workspaces                                                 |
-| <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>←</kbd><kbd>→</kbd>                                            | Switch workspaces to a relative workspace                         |
-| <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>↓</kbd>                                                        | Move to the first empty workspace                                 |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd>                   | Resize windows                                                    |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>[0-9]</kbd>                                                   | Move focused window to a relative workspace                       |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> | Move focused window (tiled/floating) around the current workspace |
-| <kbd>Super</kbd> + <kbd>MouseScroll</kbd>                                                                | Scroll through existing workspaces                                |
-| <kbd>Super</kbd> + <kbd>LeftClick</kbd><br><kbd>Super</kbd> + <kbd>Z</kbd>                               | Move focused window                                               |
-| <kbd>Super</kbd> + <kbd>RightClick</kbd><br><kbd>Super</kbd> + <kbd>X</kbd>                              | Resize focused window                                             |
-| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>S</kbd>                                                         | Move/Switch to special workspace (scratchpad)                     |
-| <kbd>Super</kbd> + <kbd>S</kbd>                                                                          | Toggle to special workspace                                       |
-| <kbd>Super</kbd> + <kbd>J</kbd>                                                                          | Toggle focused window split                                       |
-| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>[0-9]</kbd>                                                     | Move focused window to a workspace silently                       |
-| <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>H</kbd>                                                        | Move between grouped windows backward                             |
-| <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>L</kbd>                                                        | Move between grouped windows forward                              |
 
 </div>
 
 <div align="right">
   <br>
   <a href="#-design-by-t2"><kbd> <br> 🡅 <br> </kbd></a>
+</div>
+
+<div align="right">
+  <sub>Last edited on: <span id="last-edited"></span></sub>
 </div>

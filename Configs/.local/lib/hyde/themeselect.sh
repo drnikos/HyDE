@@ -9,8 +9,8 @@ source "${scrDir}/globalcontrol.sh"
 rofiConf="${confDir}/rofi/selector.rasi"
 
 #// set rofi scaling
-
-[[ "${rofiScale}" =~ ^[0-9]+$ ]] || rofiScale=10
+rofiScale="${ROFI_THEME_SCALE}"
+[[ "${rofiScale}" =~ ^[0-9]+$ ]] || rofiScale=${ROFI_SCALE:-10}
 r_scale="configuration {font: \"JetBrainsMono Nerd Font ${rofiScale}\";}"
 # shellcheck disable=SC2154
 elem_border=$((hypr_border * 5))
@@ -25,7 +25,7 @@ mon_x_res=$((mon_x_res * 100 / mon_scale))
 #// generate config
 
 # shellcheck disable=SC2154
-case "${themeSelect}" in
+case "${ROFI_THEME_STYLE}" in
 2) # adapt to style 2
     elm_width=$(((20 + 12) * rofiScale * 2))
     max_avail=$((mon_x_res - (4 * rofiScale)))
@@ -52,7 +52,7 @@ rofiSel=$(
     while [ $i -lt ${#thmList[@]} ]; do
         echo -en "${thmList[$i]}\x00icon\x1f${thmbDir}/$(set_hash "${thmWall[$i]}").${thmbExtn}\n"
         i=$((i + 1))
-    done | rofi -dmenu -theme-str "${r_scale}" -theme-str "${r_override}" -config "${rofiConf}" -select "${hydeTheme}"
+    done | rofi -dmenu -theme-str "${r_scale}" -theme-str "${r_override}" -config "${rofiConf}" -select "${HYDE_THEME}"
 )
 
 #// apply theme
@@ -60,5 +60,5 @@ rofiSel=$(
 if [ -n "${rofiSel}" ]; then
     "${scrDir}/themeswitch.sh" -s "${rofiSel}"
     # shellcheck disable=SC2154
-    notify-send -a "HyDE Alert" -i "${iconsDir}/Wallbash-Icon/hyprdots.png" " ${rofiSel}"
+    notify-send -a "HyDE Alert" -i "${iconsDir}/Wallbash-Icon/hyde.png" " ${rofiSel}"
 fi
