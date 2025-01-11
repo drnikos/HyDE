@@ -30,22 +30,12 @@ Multi-language README support
 </div><br><br>
 
 <div align="center">
-  <div style="display: flex; flex-wrap: wrap; justify-content: center;">
-    <div style="flex: 1 1 100px; margin: 10px;">
-      <img src="Source/assets/archlinux.png" alt="Arch Linux" style="width: 100%; max-width: 100px;"/>
-    </div>
-    <div style="flex: 1 1 100px; margin: 10px;">
-      <img src="Source/assets/cachyos.png" alt="CachyOS" style="width: 100%; max-width: 100px;"/>
-    </div>
-    <div style="flex: 1 1 100px; margin: 10px;">
-      <img src="Source/assets/endeavouros.png" alt="EndeavourOS" style="width: 100%; max-width: 100px;"/>
-    </div>
-    <div style="flex: 1 1 100px; margin: 10px;">
-      <img src="Source/assets/garuda.png" alt="Garuda" style="width: 100%; max-width: 100px;"/>
-    </div>
-    <div style="flex: 1 1 100px; margin: 10px;">
-      <img src="Source/assets/nixos.png" alt="NixOS" style="width: 100%; max-width: 100px;"/>
-    </div>
+  <div style="display: flex; flex-wrap: nowrap; justify-content: center;">
+    <img src="Source/assets/archlinux.png" alt="Arch Linux" style="width: 10%; margin: 10px;"/>
+    <img src="Source/assets/cachyos.png" alt="CachyOS" style="width: 10%; margin: 10px;"/>
+    <img src="Source/assets/endeavouros.png" alt="EndeavourOS" style="width: 10%; margin: 10px;"/>
+    <img src="Source/assets/garuda.png" alt="Garuda" style="width: 10%; margin: 10px;"/>
+    <img src="Source/assets/nixos.png" alt="NixOS" style="width: 10%; margin: 10px;"/>
   </div>
 </div>
 
