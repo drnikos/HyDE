@@ -6,8 +6,8 @@ gestures                                             # gui for libinput-gestures
 wttrbar                                                # for weather
 python-requests|wttrbar                                # script dependency
 ddccui                                                 # GUI to control brightness for external monitors
-hyprgui-bin                                            # GUI for hyprland configuration // might mess your userprefs but convenient
-# satty                                                  # Annotation tool like swappy but better
+# hyprgui-bin                                          # GUI for hyprland configuration // might mess your userprefs but convenient // Just disappeared
+# swappy                                               # screenshot editor, DEPRECATED in favor for satty
 
 # --------------------------------------------------- // Shell
 # oh-my-zsh-git|zsh                                      # Optional plugin manager for zsh // already installed locally
@@ -22,6 +22,7 @@ emote                                                # emoji picker gtk3
 # gamemode                                               # daemon and library for game optimizations
 # mangohud                                               # system performance overlay
 # gamescope                                            # micro-compositor for gaming
+# lutris                                               # Lutris is an open source gaming platform for Linux
 
 # --------------------------------------------------- // Music
 # cava                                                   # audio visualizer
@@ -37,7 +38,7 @@ neovim                                               # vim based text editor
 
 # --------------------------------------------------- // Editor
 # vscodium-bin                                          # Full oss text editor
-# vscodium-bin-marketplace|vscodium-bin                 # VSCodium marketplace
+# vscodium-marketplace|vscodium-bin                 # VSCodium marketplace
 # code-marketplace|code                                 # Code-Oss marketplace
 # visual-studio-code-bin                                # MS  text editor
 
