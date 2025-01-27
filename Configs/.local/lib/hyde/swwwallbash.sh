@@ -112,9 +112,11 @@ fn_wallbash() {
 
     # shellcheck disable=SC1091
     # shellcheck disable=SC2154
-    [ -f "$HYDE_STATE_HOME/staterc" ] && source "$HYDE_STATE_HOME/staterc"
-    if [[ -n "${skip_wallbash[*]}" ]]; then
-        for skip in "${skip_wallbash[@]}"; do
+    [ -f "$HYDE_STATE_HOME/state" ] && source "$HYDE_STATE_HOME/state"
+    # shellcheck disable=SC1091
+    [ -f "$HYDE_STATE_HOME/config" ] && source "$HYDE_STATE_HOME/config"
+    if [[ -n "${WALLBASH_SKIP_TEMPLATE[*]}" ]]; then
+        for skip in "${WALLBASH_SKIP_TEMPLATE[@]}"; do
             if [[ "${template}" =~ ${skip} ]]; then
                 print_log -sec "wallbash" -warn "skip '$skip' template " "Template: ${template}"
                 return 0
