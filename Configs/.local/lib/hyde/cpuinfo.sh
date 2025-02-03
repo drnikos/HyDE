@@ -143,7 +143,7 @@ objects) |
 to_entries[] | 
 select(.key | 
 test("temp[0-9]+_input")) | 
-.value | floor))%") | 
+.value | floor))°C") | 
 join("\\n\t")' <<<"$sensors_json")"
 
 if [ -n "${CPUINFO_TEMPERATURE_ID}" ]; then
@@ -152,10 +152,10 @@ fi
 
 if [[ -z "$temperature" ]]; then
     # Extract the first temperature from the JSON
-    cpu_temp_line="${cpu_temps%%$'\n'*}"  # Get the first line
-    cpu_temp_value="${cpu_temp_line#*: }" # Remove everything before the colon and space
-    temperature="${cpu_temp_value%%%*}"   # Remove everything after the percentage sign
+    cpu_temp_line="${cpu_temps%%$'°C'*}" # Get the first line
+    temperature="${cpu_temp_line#*: }"   # Remove everything before the colon and space
 fi
+
 utilization=$(get_utilization)
 frequency=$(perl -ne 'BEGIN { $sum = 0; $count = 0 } if (/cpu MHz\s+:\s+([\d.]+)/) { $sum += $1; $count++ } END { if ($count > 0) { printf "%.2f\n", $sum / $count } else { print "NaN\n" } }' /proc/cpuinfo)
 
