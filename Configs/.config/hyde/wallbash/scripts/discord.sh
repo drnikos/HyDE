@@ -2,7 +2,7 @@
 
 
 #// source variables
-
+cacheDir=$HOME/.cache/hyde
 discord_col="${cacheDir}/wallbash/discord.css"
 declare -a client_list=()
 
