@@ -1,0 +1,73 @@
+inget qt5-webkit-git
+inget matlab
+inget geogebra-6-bin
+inget libreoffice
+inget gwenview
+inget readpe
+inget telegram-desktop
+inget foundry
+inget solidity
+inget forge
+inget pycharm-professional
+inget okular
+inget radare2
+inget rz-cutter
+inget man
+inget cutter
+inget tcpdump
+inget gunzip
+inget perl-image-exiftool
+inget crash
+inget exiftool-rs-git
+inget volatility3
+inget volatility3-git
+inget python-pycryptodome
+inget sasquatch
+inget jefferson
+inget p7zip unzip foremost exiftool
+inget thunderbird
+inget python-pwntools
+inget binwalk
+inget neovim
+inget python-requests python-pyfiglet python-bs4 python-colorama
+inget zip
+inget torbrowser-launcher
+inget postgresql
+inget brave-bin
+inget brave
+inget exploitdb
+inget metasploit
+inget git-dumper-git
+inget dirsearch
+inget less
+inget ffuf
+inget netcat
+inget ncat
+inget openvpn
+inget iwd
+inget clang
+inget os-prober
+inget spotdl
+inget chromium
+inget bitwarden
+inget john
+inget amdgpud
+inget amdgpu
+inget cuda
+inget ida-free ghidra pwngdb
+inget ida-free ghifra pwngdb
+inget burpsuite
+inget hashcat
+inget qbittorrent
+inget dirbuster
+inget gobuster feroxbuster
+inget wget
+inget bzip2
+inget dos2unix
+inget luit
+inget kio-gdrive
+inget hyde-cli-git
+inget ttf-google-fonts-git konsole
+inget otf-cascadia-code nmap wireshark-qt aircrack-ng
+inget vesktop
+inget spotify spicetify-cli
