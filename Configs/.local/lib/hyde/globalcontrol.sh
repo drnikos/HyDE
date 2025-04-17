@@ -35,45 +35,62 @@ get_hashmap() {
     unset wallHash
     unset wallList
     unset skipStrays
-    unset verboseMap
+    unset filetypes
+
+    list_extensions() {
+        # Define supported file extensions
+        supported_files=(
+            "gif"
+            "jpg"
+            "jpeg"
+            "png"
+            "${WALLPAPER_FILETYPES[@]}"
+        )
+        if [ -n "${WALLPAPER_OVERRIDE_FILETYPES}" ]; then
+            supported_files=("${WALLPAPER_OVERRIDE_FILETYPES[@]}")
+        fi
+
+        printf -- "-iname \"*.%s\" -o " "${supported_files[@]}" | sed 's/ -o $//'
+
+    }
+
+    find_wallpapers() {
+        local wallSource="$1"
+
+        if [ -z "${wallSource}" ]; then
+            print_log -err "ERROR: wallSource is empty"
+            return 1
+        fi
+
+        local find_command
+        find_command="find \"${wallSource}\" -type f \\( $(list_extensions) \\) ! -path \"*/logo/*\" -exec \"${hashMech}\" {} +"
+
+        [ "${LOG_LEVEL}" == "debug" ] && print_log -g "DEBUG:" -b "Running command:" "${find_command}"
+
+        tmpfile=$(mktemp)
+        eval "${find_command}" 2>"$tmpfile" | sort -k2
+        error_output=$(<"$tmpfile") && rm -f "$tmpfile"
+        [ -n "${error_output}" ] && print_log -err "ERROR:" -b "found an error: " -r "${error_output}" -y " skipping..."
+
+    }
 
     for wallSource in "$@"; do
+
+        [ "${LOG_LEVEL}" == "debug" ] && print_log -g "DEBUG:" -b "arg:" "${wallSource}"
+
         [ -z "${wallSource}" ] && continue
         [ "${wallSource}" == "--no-notify" ] && no_notify=1 && continue
         [ "${wallSource}" == "--skipstrays" ] && skipStrays=1 && continue
         [ "${wallSource}" == "--verbose" ] && verboseMap=1 && continue
-        [ -e "${wallSource}" ] || continue
+
         wallSource="$(realpath "${wallSource}")"
 
-        [ "${LOG_LEVEL}" == "debug" ] && print_log -g "DEBUG:" -b "wallSource:" "${wallSource}"
-
-        list_extensions() {
-            # Define supported file extensions
-            supported_files=(
-                "gif"
-                "jpg"
-                "jpeg"
-                "png"
-                "${WALLPAPER_FILETYPES[@]}"
-            )
-            printf -- "-iname *.%s -o " "${supported_files[@]}" | sed 's/ -o $//'
+        [ -e "${wallSource}" ] || {
+            print_log -err "ERROR:" -b "wallpaper source does not exist:" "${wallSource}" -y " skipping..."
+            continue
         }
 
-        find_wallpapers() {
-            local wallSource="$1"
-
-            if [ -z "${wallSource}" ]; then
-                print_log -err "ERROR: wallSource is empty"
-                return 1
-            fi
-
-            local find_command
-            find_command="find \"${wallSource}\" -type f \\( $(list_extensions) \\) ! -path \"*/logo/*\" -exec \"${hashMech}\" {} + 2>/dev/null"
-
-            [ "${LOG_LEVEL}" == "debug" ] && print_log -g "DEBUG:" -b "Running command:" "${find_command}"
-
-            eval "${find_command}" | sort -k2
-        }
+        [ "${LOG_LEVEL}" == "debug" ] && print_log -g "DEBUG:" -b "wallSource path:" "${wallSource}"
 
         hashMap=$(find_wallpapers "${wallSource}") # Enable debug mode for testing
 
@@ -95,7 +112,8 @@ get_hashmap() {
 
     # Notify the list of directories without compatible wallpapers
     if [ "${#no_wallpapers[@]}" -gt 0 ]; then
-        [ -n "${no_notify}" ] && notify-send -a "HyDE Alert" "WARNING: No compatible wallpapers found in: ${no_wallpapers[*]}"
+        # [ -n "${no_notify}" ] && notify-send -a "HyDE Alert" "WARNING: No compatible wallpapers found in: ${no_wallpapers[*]}"
+        print_log -warn "No compatible wallpapers found in:" "${no_wallpapers[*]}"
     fi
 
     if [ -z "${#wallList[@]}" ] || [[ "${#wallList[@]}" -eq 0 ]]; then
@@ -103,6 +121,7 @@ get_hashmap() {
             return 1
         else
             echo "ERROR: No image found in any source"
+            [ -n "${no_notify}" ] && notify-send -a "HyDE Alert" "WARNING: No compatible wallpapers found in: ${no_wallpapers[*]}"
             exit 1
         fi
     fi
