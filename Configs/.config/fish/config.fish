@@ -7,9 +7,6 @@ source ~/.config/fish/user.fish
 
 if type -q starship
     starship init fish | source
-
-    # Display Pokemon
-    pokego --no-title -r 1
     set -gx STARSHIP_CACHE $XDG_CACHE_HOME/starship
     set -gx STARSHIP_CONFIG $XDG_CONFIG_HOME/starship/starship.toml
 end
@@ -53,24 +50,22 @@ set fish_pager_color_prefix cyan
 set fish_color_autosuggestion brblack
 
 # List Directory
-alias c='clear'                                                        
-alias l='eza -lh --icons=auto'                                         
-alias ls='eza -1 --icons=auto'                                         
-alias ll='eza -lha --icons=auto --sort=name --group-directories-first' 
-alias ld='eza -lhD --icons=auto'                                       
-alias lt='eza --icons=auto --tree'                                     
-alias un='$aurhelper -Rns'                                             
-alias up='$aurhelper -Syu'                                             
-alias pl='$aurhelper -Qs'                                              
-alias pa='$aurhelper -Ss'                                              
-alias pc='$aurhelper -Sc'                                              
-alias po='$aurhelper -Qtdq | $aurhelper -Rns -'                        
-alias vc='code'                                                        
-
+alias c='clear'
+alias l='eza -lh --icons=auto'
+alias ls='eza -1 --icons=auto'
+alias ll='eza -lha --icons=auto --sort=name --group-directories-first'
+alias ld='eza -lhD --icons=auto'
+alias lt='eza --icons=auto --tree'
+alias un='$aurhelper -Rns'
+alias up='$aurhelper -Syu'
+alias pl='$aurhelper -Qs'
+alias pa='$aurhelper -Ss'
+alias pc='$aurhelper -Sc'
+alias po='$aurhelper -Qtdq | $aurhelper -Rns -'
+alias vc='code'
+alias fastfetch='fastfetch --logo-type kitty'
 alias gc="git clone"
 alias gp="git pull"
-
-alias fastfetch='fastfetch --logo-type kitty'
 
 # Directory navigation shortcuts
 alias ..='cd ..'
@@ -82,5 +77,7 @@ alias .5='cd ../../../../..'
 abbr mkdir 'mkdir -p'
 
 
-fish_add_path /home/wasp/.spicetify
-alias progintro='luit -encoding ISO-8859-7 ssh -oHostKeyAlgorithms=+ssh-rsa <username>@novice.softlab.ntua.gr'
+
+
+
+
