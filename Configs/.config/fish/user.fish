@@ -41,7 +41,7 @@ set EDITOR code
 set aurhelper yay
 
 
-
+alias inget='$aurhelper -Sy'
 
 
 
