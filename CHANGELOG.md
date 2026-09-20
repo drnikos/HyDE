@@ -9,12 +9,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## Unreleased
 
 ### Added
+- Docs: link to Lua migration guide in `README.md` and `MIGRATION-LUA.md`
+- Waybar: add VSCodium and Chromium icon rules to window module
+
+### Fixed
+- Waybar, wlogout: fix logout button behavior
+- Waybar: resolve visual collision between privacy and tray modules by adding margins
+- Docs: fix broken HyDE wiki links across the main and translated `README` files
+- Waybar: correct spacing and missing icons in window module 
+- Waybar: choosing a theme, or just a wallpaper within the current theme, from the HyDE menu, the theme module, the wallpaper widget or the macOS layout's menu no longer silently leaves the wallpaper and colour state unapplied; both paths write into `hypr/themes/colors.conf`, which triggers a Hyprland autoreload, whose reload hook sends `SIGUSR2` to the whole `hyde-Hyprland-bar.service` cgroup — killing the in-flight `theme.select.sh`/`theme.switch.sh`/`wallpaper.sh` process tree along with it. These menu actions now launch them via `hyde-shell app -t scope` so they run in their own cgroup instead of waybar's.
+- Waybar: `gpuinfo` no longer floods stderr with an `awk` fatal error on every poll when a battery exposes a `power_now` attribute the firmware cannot actually read; the value is now read before it is used instead of being handed straight to `awk`
+- Installer: a fresh install no longer aborts on a missing AUR helper before having the chance to install it
+- Wallbash: resolve `integer expected` syntax error in `color.set.sh` when evaluating template failure state
+- Waybar: `gpuinfo` no longer crashes with a division-by-zero error, leaks a plain-text banner into its JSON output on the first poll after a reboot or a `--reset`, or emits an invalid `"percentage":` with no value when no temperature sensor is available; all three used to break the module's parsing
+- Python environment: `uv sync` now targets the HyDE-managed venv at `~/.local/state/hyde/python_env` instead of creating a project-local `.venv`; also forces `--link-mode copy` to avoid silent reflink failures on ext4 that left packages uninstalled
+
+## v26.08.21
+
+### Added
+- Hyprland: automatically load `monitors.lua`. `nwg-displays` now works without requiring manual imports, while still allowing users to override them in `hyprland.lua`.
 - Docs: `MIGRATION-LUA.md`, a transition guide for upgrading from the hyprlang configuration — what moved where, the silent failures and their causes, and the files the upgrade leaves behind
+- swaync: notification popup padding, control center margin, and corner rounding follow the active theme's `general:gaps_out` and `decoration:rounding`
 
 ### Removed
 - Hyprland: dropped the legacy hyprlang dot, the files it deployed no longer exist
 
 ### Fixed
+- Waybar: resolved an issue in the memory module where state-specific formats overrode `format-alt` when memory usage exceeded 30%.
+- Waybar: enforced decimal rounding for values in the memory module
+- Hyprland: restored missing background blur on UI layers (Waybar, Rofi, etc.)
 - Core: `keyboardswitch.sh` triggers correct language notification; layout switch targets current device instead of cycling all devices, eliminating the IPC race condition and preventing multiple input devices from desyncing
 - Rofi selector: the launcher grid is sized from the display again when the focused-monitor query comes back empty, instead of collapsing to a single column; the width had no fallback while the other two selectors both default to 1920
 - Waybar: the theme picker opens again from the theme module, the HyDE menu and the macOS layout's menu; all three called `themeselect`, which the v26.7.4 migration renamed to `theme.select`
@@ -46,7 +69,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Core: app launchers no longer show a false error when an unrelated `DEBUG` variable contains a non-boolean value such as `release`
 - Desktop: the generated battery notification startup command now launches `batterynotify.lua` instead of the removed shell implementation
 - Hyprland: Lua keybinds again match the documented shortcuts for window management, screenshots, wallpapers, Waybar, selectors, workspaces and the scratchpad
-- Screenshot: area capture now uses the fixed upstream Grimblast selector instead of prompting for the region twice
+- Screenshot: area capture now uses the fixed upstream Grimblast selector instead of prompting for the region twice; the dot carried no version of its own, so existing installs kept resolving to the default and never re-synced
 - Screenshot: Satty defaults to the compatible GTK GL renderer when no explicit `GSK_RENDERER` is configured
 - Screenshot: the "print all monitors" keybind now invokes a full-output capture instead of capturing only the focused monitor
 - Waybar `hyprland/workspaces` module adapted to use lua dispatchers
@@ -57,6 +80,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - OCR: the language list in the result notification is no longer split across arguments
 - Wallpaper: the duplicate check in the kon backend compares against the whole hash list again
 - Repo: dropped two stray gitlinks that made `git submodule` fail on a fresh clone
+- Waydeeper: drop unsupported `--inpaint` option and inpaint model, use `--3d` instead
+- swaync: use themes from the `.local/share/wallbash` template instead of a stale copy that permanently shadowed it
+- swaync: an install deploys `~/.config/swaync` again; its dot lived only in `notification-daemon.toml`, a group nothing includes, so nothing ever reached it
 
 ## v26.7.4 | 4th Week of July 2026 Release
 

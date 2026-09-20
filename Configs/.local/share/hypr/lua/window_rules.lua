@@ -49,7 +49,9 @@ local floating =
       ".*dialog.*",
       "Open File",
       "Volume Control",
-      "Save As.*"
+      "Save As.*",
+      "File Already Exists — Dolphin",
+      "Properties for.*"
     }
   }
 )
@@ -84,6 +86,10 @@ local modals =
     }
   }
 )
+
+
+
+
 
 -- Consolidated floating rules (includes dialogs, portal dialogs, popups, dolphin dialogs)
 hl.window_rule(
@@ -158,3 +164,11 @@ hl.window_rule(
     workspace = "special:xwayland_video_bridge silent"
   }
 )
+
+-- filemanagers
+hl.window_rule({
+	name = "filemanagers-fullscreen",
+	match = { class = "^(.*dolphin.*)$|^(.*pcmanfm-qt.*)$|^(.*nemo.*)$|^(.*ark.*)$|.*Nautilus.*" },
+	opaque = true,
+	float = false,
+})

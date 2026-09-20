@@ -192,34 +192,49 @@ EOF
 	#----------------#
 	echo ""
 
-	if ! chk_list "aurhlpr" "${aurList[@]}"; then
-		print_log -c "\nAUR Helpers :: "
-		aurList+=("yay-bin" "paru-bin")
-		for i in "${!aurList[@]}"; do
-			print_log -sec "$((i + 1))" " ${aurList[$i]} "
-		done
+	# Step 1: Check if any AUR helper is installed
+	if chk_list "aurhlpr" "${aurList[@]}"; then
+		# Step 2: Show detected helper and ask user to confirm
+		print_log -c "\nDetected AUR helper: "
+		print_log -sec "AUR" -stat "Found" "${aurhlpr}"
 
-		prompt_timer 120 "Enter option number [default: yay-bin] | q to quit "
+		prompt_timer 60 "Use ${aurhlpr}? [Y/n] | q to quit "
 
 		case "${PROMPT_INPUT}" in
-		1) export getAur="yay" ;;
-		2) export getAur="paru" ;;
-		3) export getAur="yay-bin" ;;
-		4) export getAur="paru-bin" ;;
+		n|N)
+			# User wants to choose a different one — fall through to menu
+			;;
 		q)
 			print_log -sec "AUR" -crit "Quit" "Exiting..."
 			exit 1
 			;;
 		*)
-			print_log -sec "AUR" -warn "Defaulting to yay-bin"
-			print_log -sec "AUR" -stat "default" "yay-bin"
-			export getAur="yay-bin"
+			# User confirmed — use the detected helper
+			export getAur="${aurhlpr}"
 			;;
 		esac
-		if [[ -z "$getAur" ]]; then
-			print_log -sec "AUR" -crit "No AUR helper found..." "Log file at ${cacheDir}/logs/${HYDE_LOG}"
+	fi
+
+	# Step 3: If no helper chosen yet, show selection menu
+	if [[ -z "${getAur:-}" ]]; then
+		print_log -c "\nAvailable AUR helpers :: "
+		for i in "${!aurList[@]}"; do
+			print_log -sec "$((i + 1))" " ${aurList[$i]} "
+		done
+
+		prompt_timer 120 "Enter option number [default: yay] | q to quit "
+
+		case "${PROMPT_INPUT}" in
+		[1-9]|10) export getAur="${aurList[$((PROMPT_INPUT - 1))]}" ;;
+		q)
+			print_log -sec "AUR" -crit "Quit" "Exiting..."
 			exit 1
-		fi
+			;;
+		*)
+			print_log -sec "AUR" -warn "Defaulting to yay"
+			export getAur="yay"
+			;;
+		esac
 	fi
 
 	# Only an explicit choice counts; an installed package is not an answer.
@@ -248,7 +263,7 @@ EOF
 	#------------------------------------#
 	# install AUR helper via pacman first #
 	#------------------------------------#
-	"${scrDir}/install_aur.sh" "${getAur}" 2>&1
+	"${scrDir}/install_aur.sh" "${getAur:-${aurhlpr:-yay-bin}}" 2>&1
 
 	deez_exe="${HOME}/.local/state/hyde/python_env/bin/deez"
 
@@ -469,9 +484,18 @@ EOF
 	print_log -g "[generate] " "cache ::" "Wallpapers..."
 	if [ "${flg_DryRun}" -ne 1 ]; then
 		export PATH="$HOME/.local/lib/hyde:$HOME/.local/bin:${PATH}"
-		"$HOME/.local/lib/hyde/wallpaper/cache.sh" commence -t ""
-		"$HOME/.local/lib/hyde/theme.switch.sh" -q || true
-		"$HOME/.local/lib/hyde/waybar.py" --update || true
+		if ! "$HOME/.local/lib/hyde/wallpaper/cache.sh" commence -t ""; then
+			print_log -err "[theme] " -crit "ERROR" "Wallpaper cache was not generated"
+			theme_failed=1
+		fi
+		if ! "$HOME/.local/lib/hyde/theme.switch.sh" -q; then
+			print_log -err "[theme] " -crit "ERROR" "Theme colour state was not generated"
+			theme_failed=1
+		fi
+		if ! "$HOME/.local/lib/hyde/waybar.py" --update; then
+			print_log -err "[theme] " -crit "ERROR" "Waybar configuration was not updated"
+			theme_failed=1
+		fi
 		echo "[install] reload :: Hyprland"
 	fi
 
@@ -534,6 +558,12 @@ fi
 # the services above still run against the dots that did land.
 if [ "${deploy_failed:-0}" -ne 0 ]; then
 	print_log -err "[DEEZ-DOTS] " -crit "ERROR" "Some dots were not deployed. Deal with the failures reported above and run the restore again."
+	print_log -b "Log" " :: " -y "View logs at ${cacheDir}/logs/${HYDE_LOG}"
+	exit 1
+fi
+
+if [ "${theme_failed:-0}" -ne 0 ]; then
+	print_log -err "[theme] " -crit "ERROR" "The theme state is incomplete, so the session would start without colours. Deal with the failures reported above and run the restore again."
 	print_log -b "Log" " :: " -y "View logs at ${cacheDir}/logs/${HYDE_LOG}"
 	exit 1
 fi

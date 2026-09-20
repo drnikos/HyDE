@@ -14,10 +14,12 @@
 --       load_item              = function(path, base) return { ... } end,
 --       static_items           = { ... },                    -- extra items to inject
 --       static_items_position  = "prepend",                -- or "append"
---       on_set                 = function(item) end,
+--       on_selection_changed   = "cmd {text}",             -- rofi callback when selection changes (shell cmd)
+--       on_menu_canceled       = "cmd",                    -- rofi callback when menu is cancelled (shell cmd)
+--       on_set                 = function(item) end,        -- called when item is confirmed (persists state)
 --       state_writer           = function(state_dir, state_file, item) end,
 --   })
---   -- M exposes: .dirs .list .names .all .find(n) .current() .set(n) .waybar()
+--   -- M exposes: .dirs .list .names .all .find(n) .current() .set(n) .waybar() .state_file
 --
 -- CLI RUNNER — delegates argparse to the returned module:
 --
@@ -161,10 +163,18 @@ function M.new(opts)
     end
 
     local function write_state(state_dir, state_file, item)
+        local ok, err
         if opts.state_writer then
-            return opts.state_writer(state_dir, state_file, item)
+            -- legacy custom writers may not report status; treat "returned
+            -- nothing" as success, only a truthy err means an actual failure
+            ok, err = opts.state_writer(state_dir, state_file, item)
+        else
+            ok, err = state.write(state_dir, state_file, item)
         end
-        return state.write(state_dir, state_file, item)
+        if ok == false or (not ok and err) then
+            return nil, err or "state write failed"
+        end
+        return true
     end
 
     local function set_item(name)
@@ -172,7 +182,10 @@ function M.new(opts)
         if not item then
             return nil, "unknown item '" .. tostring(name) .. "'"
         end
-        write_state(sd, sf, item)
+        local ok, err = write_state(sd, sf, item)
+        if not ok then
+            return nil, err
+        end
         if opts.staterc_key then
             state.staterc_set(opts.staterc_key, item.key)
         end
@@ -247,7 +260,8 @@ function M.new(opts)
         set = set_item,
         reload = reload,
         waybar = waybar,
-        rofi_opts = opts.rofi_opts or {}
+        rofi_opts = opts.rofi_opts or {},
+        state_file = sf
     }
 end
 
@@ -301,9 +315,9 @@ function M.run(module, opts)
             print_item(item)
         end
     elseif cli.reload then
-        local item, err = module.reload and module.reload()
+        local item = module.reload and module.reload()
         if not item then
-            io.stderr:write("Error: " .. tostring(err) .. "\n")
+            io.stderr:write("Error: reload failed\n")
             os.exit(1)
         end
         os.execute("hyprctl reload >/dev/null 2>&1")
