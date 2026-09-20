@@ -41,4 +41,114 @@ end
 -- Press SUPER + / to see what is actually loaded, your own binds included.
 -- The full reference is KEYBINDINGS.md in the HyDE repository.
 --
--- Other Lua files next to this one can be pulled in with require("name").
+
+local ca = "CTRL + ALT"
+local mainMod = "SUPER"
+local scrPath = os.getenv("HOME") .. "/.config/hypr/scripts"
+local BROWSER = "firefox-developer-edition"
+local term= "kitty"
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+hl.gesture({ fingers = 3, direction = "down", mods = "ALT", action = "close" })
+hl.gesture({ fingers = 3, direction = "up", mods = "SUPER", scale = 1.5, action = "fullscreen" })
+
+-- ~/.config/hypr/hyprland.lua
+
+-- ============================================================
+-- Window rules
+-- ============================================================
+
+hl.window_rule({
+    name = "windowrule-1",
+    match = {
+        class = "^([Ss]potify)$",
+    },
+    workspace = "9",
+})
+
+hl.window_rule({
+    name = "windowrule-2",
+    match = {
+        class = "^([Vv]esktop)$",
+    },
+    workspace = "8",
+})
+
+
+-- ============================================================
+-- Keybinds
+-- ============================================================
+
+hl.bind(
+    ca .. " + F",
+    hl.dsp.exec_cmd(BROWSER)
+)
+hl.bind(ca .. " + G", hl.dsp.exec_cmd("steam"))
+hl.bind(ca .. " + T", hl.dsp.exec_cmd(term))
+hl.bind(ca .. " + C", hl.dsp.exec_cmd("code"))
+
+hl.bind(
+    "SUPER + SUPER_L",
+    hl.dsp.exec_cmd(hyde.sh.menu.apps()),
+    { release = true }
+)
+
+hl.bind(ca .. " + S", hl.dsp.exec_cmd("spotify-launcher"))
+
+-- Discord disabled
+-- hl.bind(ca .. " + D", hl.dsp.exec_cmd("discord"))
+
+hl.bind(ca .. " + D", hl.dsp.exec_cmd("vesktop"))
+
+hl.bind(
+    mainMod .. " + SHIFT + G",
+    hl.dsp.exec_cmd(
+        "pkill -x rofi || " .. scrPath .. "/gamelauncher.sh 4"
+    )
+)
+
+hl.bind(
+    ca .. " + DELETE",
+    hl.dsp.exec_cmd("swaylock; systemctl suspend")
+)
+
+hl.bind(
+    ca .. " + Y",
+    hl.dsp.exec_cmd(BROWSER .. " https://youtube.com")
+)
+
+hl.bind(
+    "XF86Calculator",
+    hl.dsp.exec_cmd(term)
+)
+
+hl.bind(
+    "XF86Launch2",
+    hl.dsp.exec_cmd(BROWSER)
+)
+
+hl.bind(
+    "XF86Launch2",
+    hl.dsp.exec_cmd("spotify-launcher")
+)
+
+hl.bind(
+    "XF86Launch2",
+    hl.dsp.exec_cmd("vesktop")
+)
+
+
+-- ============================================================
+-- Input
+-- ============================================================
+
+hl.config({
+    input = {
+        kb_layout = "us,gr",
+        numlock_by_default = false,
+
+        touchpad = {
+            natural_scroll = true,
+            scroll_factor = 0.4,
+        },
+    },
+})
