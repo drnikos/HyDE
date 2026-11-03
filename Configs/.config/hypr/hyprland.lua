@@ -123,17 +123,9 @@ hl.bind(
 
 hl.bind(
     "XF86Launch2",
-    hl.dsp.exec_cmd(BROWSER)
-)
-
-hl.bind(
-    "XF86Launch2",
-    hl.dsp.exec_cmd("spotify-launcher")
-)
-
-hl.bind(
-    "XF86Launch2",
-    hl.dsp.exec_cmd("vesktop")
+    hl.dsp.exec_cmd(
+        BROWSER .. " & spotify-launcher & vesktop"
+    )
 )
 
 
